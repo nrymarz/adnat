@@ -1,2 +1,9 @@
+<% if @user.errors.any? %>
+    <% @user.errors.full_messages.each do |msg| %>
+        <div class = 'alert alert-primary'>
+            <%= msg %>
+        </div>
+    <% end %>
+<% end %>
 <h2>Sign Up</h2>
 <%= render 'form' %>
