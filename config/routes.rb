@@ -4,7 +4,9 @@ Rails.application.routes.draw do
   post 'login', to: 'sessions#create'
   get 'logout', to: 'sessions#logout'
   get 'users', to: 'sessions#login'
-  resources :organisations
-  resources :users, only:[:create,:show,:new, :update]
+  resources :organisations do
+    resources :shifts, only:[:index]
+  resources :users, only:[:create,:show,:new, :update] do 
+    resources :shifts, only:[:create,:update,:destroy,:edit,:new]
   root to: 'organisations#index'
 end
