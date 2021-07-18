@@ -3,4 +3,5 @@ Rails.application.routes.draw do
   get 'login',to: 'sessions#login'
   post 'logout', to: 'sessions#logout'
   resources :users, only:[:create,:show,:new]
+  root to: 'sessions#login'
 end
