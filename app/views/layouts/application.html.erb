@@ -13,7 +13,7 @@
   <body>
     <h1><%= link_to 'Adnat', root_path %></h1>
     <% if logged_in? %>
-      <p> Logged in as <%= @user.name %> <%= link_to "Log Out", logout_path %></p>
+      <p> Logged in as <%= current_user.name %> <%= link_to "Log Out", logout_path %></p>
     <% end %>
 
     <% flash.each do |type, msg| %>
@@ -21,7 +21,7 @@
         <%= msg %>
       </div>
     <% end %>
-    
+
     <%= yield %>
   </body>
 </html>
