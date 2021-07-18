@@ -6,4 +6,13 @@
             <li><%=org.name%> <%=link_to("Edit", edit_organisation_path(org))%> <%=link_to("Join", user_path(@user,organisation_id:org.id), method:"PATCH") %></li>
         <% end %>
     </ul>
+    <h2>Create Organization</h2>
+    <%= form_for(@organisation) do |f|%>
+        <%= f.hidden_field :user_id, value: @user.id %>
+        <%= f.label :name %>
+        <%= f.text_field :name %><br>
+        <%= f.label :hourly_rate %>
+        <%= f.number_field :hourly_rate %><br>
+        <%= f.submit "Create and Join" %>
+    <% end %>
 <% end %>
