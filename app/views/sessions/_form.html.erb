@@ -1,3 +1,11 @@
+<% if @user.errors.any? %>
+    <% @user.errors.full_messages.each do |msg| %>
+        <div class = 'alert alert-primary'>
+            <%= msg %>
+        </div>
+    <% end %>
+<% end %>
+
 <%= form_for @user, url: login_path do |f| %>
     <%= f.label :email %><br>
     <%= f.text_field :email, placeholder:'Enter Email' %><br>

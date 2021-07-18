@@ -7,6 +7,15 @@
         <% end %>
     </ul>
     <h2>Create Organization</h2>
+
+    <% if @organisation.errors.any? %>
+        <% @organisation.errors.full_messages.each do |msg| %>
+            <div class = 'alert alert-primary'>
+                <%= msg %>
+            </div>
+        <% end %>
+    <% end %>   
+
     <%= form_for(@organisation) do |f|%>
         <%= f.hidden_field :user_id, value: @user.id %>
         <%= f.label :name %>

@@ -3,7 +3,8 @@ class OrganisationsController < ApplicationController
     def index
         @organisations = Organisation.all
         @user = current_user
-        @organisation = Organisation.new if @user.organisation.nil?
+        @organisation = @user.organisation || Organisation.new
+        
     end
 
     def create

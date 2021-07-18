@@ -4,11 +4,11 @@ class UsersController < ApplicationController
     end
 
     def create
+        password = user_params[:password]
+        name = user_params[:name]
+        email = user_params[:email]
+        @user = User.new(name:name,password:password,email:email)
         if(user_params[:password] == user_params[:password_confirmation])
-            password = user_params[:password]
-            name = user_params[:name]
-            email = user_params[:email]
-            @user = User.new(name:name,password:password,email:email)
             if @user.save
                 session[:user_id] = @user.id 
                 redirect_to root_path
@@ -16,6 +16,7 @@ class UsersController < ApplicationController
                 render'new'
             end
         else
+            flash[:notice] = "Password fields must match"
             render 'new'
         end
     end
@@ -29,7 +30,7 @@ class UsersController < ApplicationController
             redirect_to root_path, notice: "Unable to join that organisation"
         end
     end
-    
+
 
     private
 
