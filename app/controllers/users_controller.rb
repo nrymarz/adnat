@@ -13,7 +13,6 @@ class UsersController < ApplicationController
                 session[:user_id] = @user.id 
                 redirect_to root_path
             else
-                byebug
                 render'new'
             end
         else
