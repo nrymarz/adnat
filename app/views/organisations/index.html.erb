@@ -11,5 +11,5 @@
     <%= render partial:'form',locals:{submit_text:"Create and Join"} %>
 <% else %>
     <h2><%= @organisation.name %></h2>
-    <%= link_to "View Shifts", "" %> <%= link_to "Edit", edit_organisation_path(@organisation) %> <%= link_to "Leave", [@user, user:{organisation_id:nil}], method:"PATCH" %>
+    <%= link_to "View Shifts", organisation_shifts_path(@organisation)%> <%= link_to "Edit", edit_organisation_path(@organisation) %> <%= link_to "Leave", [@user, user:{organisation_id:nil}], method:"PATCH" %>
 <% end %>

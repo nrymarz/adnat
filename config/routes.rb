@@ -6,7 +6,9 @@ Rails.application.routes.draw do
   get 'users', to: 'sessions#login'
   resources :organisations do
     resources :shifts, only:[:index]
-  resources :users, only:[:create,:show,:new, :update] do 
-    resources :shifts, only:[:create,:update,:destroy,:edit,:new]
+  end
+  resources :users, only:[:create,:new, :update] do
+    resources :shifts, only:[:create]
+  end
   root to: 'organisations#index'
 end
