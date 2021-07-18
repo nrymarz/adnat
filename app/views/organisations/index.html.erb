@@ -6,23 +6,9 @@
             <li><%=org.name%> <%=link_to("Edit", edit_organisation_path(org))%> <%=link_to("Join", [@user, user:{organisation_id:org.id}], method:"PATCH") %></li>
         <% end %>
     </ul>
-    <h2>Create Organization</h2>
+    <h2>Create Organization</h2> 
 
-    <% if @organisation.errors.any? %>
-        <% @organisation.errors.full_messages.each do |msg| %>
-            <div class = 'alert alert-primary'>
-                <%= msg %>
-            </div>
-        <% end %>
-    <% end %>   
-
-    <%= form_for(@organisation) do |f|%>
-        <%= f.label :name %>
-        <%= f.text_field :name %><br>
-        <%= f.label :hourly_rate %>
-        <%= f.number_field :hourly_rate %><br>
-        <%= f.submit "Create and Join" %>
-    <% end %>
+    <%= render partial:'form',locals:{submit_text:"Create and Join"} %>
 <% else %>
     <h2><%= @organisation.name %></h2>
     <%= link_to "View Shifts", "" %> <%= link_to "Edit", edit_organisation_path(@organisation) %> <%= link_to "Leave", [@user, user:{organisation_id:nil}], method:"PATCH" %>

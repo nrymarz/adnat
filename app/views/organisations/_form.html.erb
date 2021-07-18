@@ -1,11 +1,20 @@
+<% if @organisation.errors.any? %>
+    <% @organisation.errors.full_messages.each do |msg| %>
+        <div class = 'alert alert-primary'>
+            <%= msg %>
+        </div>
+    <% end %>
+<% end %>
+
 <%= form_for @organisation do |f| %>
     <div>
-    <%= f.label :name %>
+    <%= f.label :name, "Name:" %>
     <%= f.text_field :name %>
     </div>
     <div>
-    <%= f.label :hourly_rate %>
+    <%= f.label :hourly_rate, "Hourly Rate: $" %>
     <%= f.number_field :hourly_rate %>
+    Per Hour
     </div>
     <%= f.submit submit_text %>
 <% end %>

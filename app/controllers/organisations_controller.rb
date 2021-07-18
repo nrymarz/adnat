@@ -18,6 +18,13 @@ class OrganisationsController < ApplicationController
     end
 
     def update
+        @organisation = Organisation.find_by(id: params[:id])
+        @organisation.update(organisation_params)
+        if @organisation.valid?
+            redirect_to root_path, notice:"Succesfully updated #{@organisation.name}"
+        else
+            render 'edit'
+        end
     end
 
     def edit
