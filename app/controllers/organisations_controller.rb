@@ -4,14 +4,14 @@ class OrganisationsController < ApplicationController
         @organisations = Organisation.all
         @user = current_user
         @organisation = @user.organisation || Organisation.new
-        
+
     end
 
     def create
         @organisation = Organisation.new(name: organisation_params[:name], hourly_rate:organisation_params[:hourly_rate])
         if @organisation.save
-            User.find(:user_id).organisation = @organisation
-            redirect_to root_path
+            current_user.update(organisation_id:@organisation.id)
+            redirect_to root_path, notice:"Joined #{@organisation.name}"
         else
             redirect_to root_path, notice:"Unable to create organisation"
         end
@@ -21,6 +21,8 @@ class OrganisationsController < ApplicationController
     end
 
     def edit
+        @organisation = Organisation.find_by(id: params[:id])
+        redirect_to root_path,notice:'Organisation not found' if !@organisation
     end
 
     private

@@ -1,0 +1,11 @@
+<%= form_for @organisation do |f| %>
+    <div>
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+    </div>
+    <div>
+    <%= f.label :hourly_rate %>
+    <%= f.number_field :hourly_rate %>
+    </div>
+    <%= f.submit submit_text %>
+<% end %>

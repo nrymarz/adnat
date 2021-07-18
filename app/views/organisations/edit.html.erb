@@ -1,0 +1,9 @@
+<% if @organisation.errors.any? %>
+    <% @organisation.errors.full_messages.each do |msg| %>
+        <div class = 'alert alert-primary'>
+            <%= msg %>
+        </div>
+    <% end %>
+<% end %>
+<h2>Edit Organisation</h2>
+<%= render partial:'form',locals:{submit_text:"Update Organisation"} %>

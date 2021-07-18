@@ -22,6 +22,7 @@ class UsersController < ApplicationController
     end
 
     def update
+        redirect_to root_path,status:403 && return if params[:id].to_i != session[:user_id]
         @user = current_user
         @user.update(user_params)
         if @user.valid?
