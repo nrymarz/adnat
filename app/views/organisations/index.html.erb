@@ -1,0 +1,9 @@
+<% if @user.organisation.nil? %>
+    <p> You aren't a member of any organisations. Join an existing one or create a new one.<p>
+    <h2>Organisations</h2>
+    <ul>
+        <% @organisations.each do |org| %>
+            <li><%=org.name%> <%=link_to("Edit", edit_organisation_path(org))%> <%=link_to("Join", user_path(@user,organisation_id:org.id), method:"PATCH") %></li>
+        <% end %>
+    </ul>
+<% end %>

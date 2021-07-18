@@ -11,6 +11,10 @@
   </head>
 
   <body>
+    <h1><%= link_to 'Adnat', root_path %></h1>
+    <% if @user %>
+      <p> Logged in as <%= @user.name %> <%= link_to "Log Out", logout_path %></p>
+    <% end %>
     <%= yield %>
   </body>
 </html>

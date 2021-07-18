@@ -20,9 +20,20 @@ class UsersController < ApplicationController
         end
     end
 
+    def update
+        @user = current_user
+        @user.update(user_params)
+        if @user.valid?
+            redirect_to root_path
+        else
+            redirect_to root_path, notice: "Unable to join that organisation"
+        end
+    end
+    
+
     private
 
     def user_params
-        params.require(:user).permit(:name,:password,:password_confirmation,:email)
+        params.require(:user).permit(:name,:password,:password_confirmation,:email,:organisation_id)
     end
 end
