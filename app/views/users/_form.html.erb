@@ -1,0 +1,10 @@
+<%= form_for @user do |f| %>
+    <%= f.label :name %>
+    <%= f.text_field :name, placeholder:'Enter Username' %>
+    <%= f.label :password %>
+    <%= f.password_field :password %>
+    <%= f.label :password_confimation %>
+    <%= f.password_field :password_confimation %>
+    <%= f.submit "Sign Up" %>
+<% end %>
+    
