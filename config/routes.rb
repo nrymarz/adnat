@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   get 'login',to: 'sessions#login'
   post 'login', to: 'sessions#create'
   get 'logout', to: 'sessions#logout'
+  get 'users', to: 'sessions#login'
   resources :organisations
   resources :users, only:[:create,:show,:new, :update]
   root to: 'organisations#index'
