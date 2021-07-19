@@ -17,7 +17,6 @@ class ShiftsController < ApplicationController
             redirect_to root_path, notice:"Action prohibited", status:403
         end
         @shift = Shift.new(shift_params)
-        byebug
         if @shift.save
             redirect_to organisation_shifts_path(current_user.organisation)
         else

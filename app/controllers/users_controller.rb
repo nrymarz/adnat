@@ -4,20 +4,12 @@ class UsersController < ApplicationController
     end
 
     def create
-        password = user_params[:password]
-        name = user_params[:name]
-        email = user_params[:email]
-        @user = User.new(name:name,password:password,email:email)
-        if(user_params[:password] == user_params[:password_confirmation])
-            if @user.save
-                session[:user_id] = @user.id 
-                redirect_to root_path
-            else
-                render'new'
-            end
+        @user = User.new(user_params)
+        if @user.save
+            session[:user_id] = @user.id 
+            redirect_to root_path
         else
-            flash[:notice] = "Password fields must match"
-            render 'new'
+            render'new'
         end
     end
 
