@@ -13,6 +13,16 @@ class ShiftsController < ApplicationController
     end
 
     def create
+        if params[:organisation_id] != current_user.organisation_id
+            redirect_to root_path, notice:"Action prohibited", status:403
+        end
+        @shift = Shift.new(shift_params)
+        byebug
+        if @shift.save
+            redirect_to organisation_shifts_path(current_user.organisation)
+        else
+            render 'index'
+        end
     end
 
     def update
@@ -28,6 +38,6 @@ class ShiftsController < ApplicationController
     private
 
     def shift_params
-        params.require(:shift).permit(:user_id,:start,:finish,:break_length)
+        params.require(:shift).permit(:user_id,:break_length,:date=>[:start_date,:start,:finish])
     end
 end

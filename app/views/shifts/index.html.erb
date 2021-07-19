@@ -1,5 +1,5 @@
 <h2><%=@organisation.name%></h2>
-<h4>Shifts</h4>
+<h3>Shifts</h3>
 <table>
     <tr>
         <th>Employee Name</th>
@@ -18,8 +18,8 @@
                 <td><%=shift.start %></td>
                 <td><%=shift.finish%></td>
                 <td><%=shift.break_length%></td>
-                <td><%=shift.finish - shift.start %></td>
-                <td><%=@organisation.hourly_rate * (shift.finish-shift.start) %></td>
+                <td><%= %></td>
+                <td><%=@organisation.hourly_rate * (1) %></td>
             </tr>
         <% end %>
     <% end %>
@@ -27,9 +27,11 @@
     <%= form_for([current_user,@shift]) do |f| %>
         <td><%=current_user.name %></td>
         <%=f.hidden_field :user_id, value:current_user.id %>
-        <td><%=f.date_field :start %></td>
-        <td><%= f.time_field :start %></td>
-        <td><%= f.time_field :finish %></td>
+        <%=f.fields_for :date do |date_form| %>
+            <td><%=date_form.date_field :start_date %></td>
+            <td><%= date_form.time_field :start %></td>
+            <td><%= date_form.time_field :finish %></td>
+        <% end %>
         <td><%= f.number_field :break_length %></td>
         <td><%= f.submit "Create Shift" %></td>
     <% end %>
