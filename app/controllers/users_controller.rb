@@ -20,12 +20,8 @@ class UsersController < ApplicationController
     end
 
     def edit
-        @user = User.find_by(params[:id])
-        if @user && @user.id == current_user.id
-            render 'edit'
-        else
-            redirect_to root_path, notice: "Not permitted to edit other users"
-        end
+        @user = User.find(params[:id])
+        redirect_to root_path, notice: "Not allowed to edit other user's profile" if @user.id != session[:user_id].to_i
     end
 
 
