@@ -12,4 +12,10 @@ Rails.application.routes.draw do
     resources :shifts, only:[:create,:update,:destroy,:edit]
   end
   root to: 'organisations#index'
+
+  get 'password/reset', to: "passwordresets#new"
+  post "password/reset", to: "passwordresets#create"
+  get 'password/reset/edit', to: "passwordresets#edit"
+  patch "password/reset", to: "passwordresets#update"
+
 end

@@ -1,0 +1,15 @@
+<% if @user.errors.any? %>
+    <% @user.errors.full_messages.each do |msg| %>
+        <div class = 'alert alert-danger'>
+            <%= msg %>
+        </div>
+    <% end %>
+<% end %>
+<h2> Reset Password </h2>
+<%= form_for @user, url: password_reset_path(token: params[:token]), method: :patch do |f| %>
+    <%= f.label :password %><br>
+    <%= f.password_field :password %><br>
+    <%= f.label :password_confimation %><br>
+    <%= f.password_field :password_confirmation %><br>
+    <%= f.submit "Change Password" %>
+<% end %>

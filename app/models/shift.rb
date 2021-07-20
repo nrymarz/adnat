@@ -8,7 +8,6 @@ class Shift < ApplicationRecord
     validate :finish_after_start
 
     def date=(obj)
-        @date = obj
         return if obj.any? {|k,v| v.empty?}
         start_date_time = DateTime.parse(obj[:start_date] + ' ' + obj[:start])
         finish_date_time = DateTime.parse(obj[:start_date] + ' ' + obj[:finish])
