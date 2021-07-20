@@ -44,7 +44,13 @@ class ShiftsController < ApplicationController
     end
 
     def edit
-        redirect_to root_path,status:403 && return if params[:id].to_i != session[:user_id]
+        @user = User.find(params[:user_id])
+        @shift = Shift.find(params[:id])
+        if @user.id == session[:user_id].to_i
+            render 'edit'
+        else
+            redirect_to organisation_shifts_path(@user.organisation), notice:"Cannot edit other users' shifts"
+        end
     end
 
     private

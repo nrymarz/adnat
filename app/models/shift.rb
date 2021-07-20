@@ -8,6 +8,7 @@ class Shift < ApplicationRecord
     validate :finish_after_start
 
     def date=(obj)
+        @date = obj
         return if obj.any? {|k,v| v.empty?}
         start_date_time = DateTime.parse(obj[:start_date] + ' ' + obj[:start])
         finish_date_time = DateTime.parse(obj[:start_date] + ' ' + obj[:finish])
@@ -15,13 +16,22 @@ class Shift < ApplicationRecord
         self.finish = finish_date_time
     end
 
-    def date
-    end
-
     def hours_worked
         if(self.finish && self.start && self.break_length)
             ((self.finish.hour*60 +self.finish.min) - (self.start.hour*60 + self.start.min) - self.break_length)/60.0
         end
+    end
+
+    def date
+        self.start.strftime('%D') if self.start
+    end
+
+    def finish_time
+        self.finish.strftime('%l:%M%P') if self.finish
+    end
+
+    def start_time
+        self.start.strftime('%l:%M%P') if self.start
     end
 
     private

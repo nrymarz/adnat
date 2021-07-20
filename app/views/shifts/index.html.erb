@@ -17,13 +17,13 @@
         <% @shifts.each do |shift| %>
             <tr>
                 <td><%=shift.user.name%></td>
-                <td><%=shift.start.strftime('%D') %></td>
-                <td><%=shift.start.strftime('%l:%M%P') %></td>
-                <td><%=shift.finish.strftime('%l:%M%P') %></td>
+                <td><%=shift.date %></td>
+                <td><%=shift.start_time %></td>
+                <td><%=shift.finish_time %></td>
                 <td><%=shift.break_length %></td>
                 <td><%= shift.hours_worked.round(2) %></td>
                 <td>$<%=(@organisation.hourly_rate * (shift.hours_worked)).round(2) %></td>
-                <td>Edit</td>
+                <td><%= link_to "Edit", edit_user_shift_path(shift.user,shift) %></td>
                 <td><%= link_to "Delete", [shift.user,shift], method:"DELETE" %></td>
             </tr>
         <% end %>
@@ -39,28 +39,4 @@
 <% end %>
 
 <h3> Add A New Shift </h3>
-<%= form_for([@user,@shift]) do |f| %>
-    <b><%=f.label :user, "Employee: "+@user.name %></b>
-    <%=f.hidden_field :user_id, value:@user.id %>
-    <%=f.fields_for :date do |date_form| %>
-        <div class="input-group">
-        <%=date_form.label :start_date, "Date:", class:'input-group-text' %>
-        <%=date_form.date_field :start_date, class:'input-group-text' %>
-        </div>
-
-        <div class="input-group">
-        <%= date_form.label :start, "Start Time:", class:'input-group-text'%>
-        <%= date_form.time_field :start , class:'input-group-text'%>
-        </div>
-
-        <div class="input-group">
-        <%= date_form.label :finish, "Finish Time:", class:'input-group-text' %>
-        <%= date_form.time_field :finish, class:'input-group-text'%>
-        </div>
-    <% end %>
-    <div class="input-group">
-    <%= f.label :break_length, class:'input-group-text' %>
-    <%= f.number_field :break_length, class:'input-group-text', value:'30' %>
-    </div>
-    <%= f.submit "Create Shift", class:'btn btn-secondary' %>
-<% end %>
+<%= render partial:'form', locals:{submit_text:'Create Shift'} %>

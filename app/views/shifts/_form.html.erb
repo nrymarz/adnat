@@ -1,0 +1,25 @@
+<%= form_for([@user,@shift]) do |f| %>
+    <b><%=f.label :user, "Employee: "+@user.name %></b>
+    <%=f.hidden_field :user_id, value:@user.id %>
+    <%=f.fields_for :date do |date_form| %>
+        <div class="input-group">
+        <%=date_form.label :start_date, "Date:", value:@shift.date, class:'input-group-text' %>
+        <%=date_form.date_field :start_date, class:'input-group-text' %>
+        </div>
+
+        <div class="input-group">
+        <%= date_form.label :start, "Start Time:", class:'input-group-text'%>
+        <%= date_form.time_field :start , class:'input-group-text'%>
+        </div>
+
+        <div class="input-group">
+        <%= date_form.label :finish, "Finish Time:", class:'input-group-text' %>
+        <%= date_form.time_field :finish, class:'input-group-text'%>
+        </div>
+    <% end %>
+    <div class="input-group">
+    <%= f.label :break_length, class:'input-group-text' %>
+    <%= f.number_field :break_length, class:'input-group-text', value:'30' %>
+    </div>
+    <%= f.submit submit_text, class:'btn btn-secondary' %>
+<% end %>

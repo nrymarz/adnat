@@ -1,0 +1,6 @@
+<h3>Edit Shift</h3>
+<b>Date:</b> <%=@shift.date%><br>
+<b>Start Time: </b><%=@shift.start_time%><br>
+<b>Finish Time: </b><%=@shift.finish_time%><br>
+<b>Break Length: </b><%=@shift.break_length%> Minutes<br><br>
+<%= render partial:'form', locals:{submit_text:"Update Shift"} %>
