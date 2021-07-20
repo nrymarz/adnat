@@ -1,4 +1,5 @@
 class ShiftsController < ApplicationController
+    before_action :redirect_if_not_logged_in
     def index
         @user = current_user
         @organisation = Organisation.find_by(id:params[:organisation_id])
@@ -32,7 +33,10 @@ class ShiftsController < ApplicationController
     end
 
     def destroy
-        byebug
+        user = User.find(params[:user_id])
+        shift = Shift.find(params[:id])
+        user.shifts.delete(shift)
+        redirect_to organisation_shifts_path(user.organisation)
     end
 
     def edit

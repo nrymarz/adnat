@@ -1,4 +1,5 @@
 class UsersController < ApplicationController
+    before_action :redirect_if_not_logged_in, except: [:new,:create]
     def new
         if session[:user_id]
             redirect_to root_path, notice: "Already Logged In"

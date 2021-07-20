@@ -4,12 +4,12 @@ Rails.application.routes.draw do
   post 'login', to: 'sessions#create'
   get 'logout', to: 'sessions#logout'
   get 'users', to: 'sessions#login'
-  resources :organisations do
+  resources :organisations, only: [:index,:edit,:update,:create] do
     resources :shifts, only:[:index]
   end
   patch '/users/update_org', to: 'users#update_org'
   resources :users, only:[:create,:new, :update, :edit] do
-    resources :shifts, only:[:create]
+    resources :shifts, only:[:create,:update,:destroy]
   end
   root to: 'organisations#index'
 end
