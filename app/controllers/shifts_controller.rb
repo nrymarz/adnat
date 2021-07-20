@@ -30,6 +30,14 @@ class ShiftsController < ApplicationController
     end
 
     def update
+        @shift = Shift.find(params[:id])
+        @shift.update(shift_params)
+        if @shift.valid?
+            redirect_to organisation_shifts_path(current_user.organisation)
+        else
+            @user = current_user
+            render 'edit'
+        end
     end
 
     def destroy
