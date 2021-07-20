@@ -4,16 +4,17 @@ class OrganisationsController < ApplicationController
         @organisations = Organisation.all
         @user = current_user
         @organisation = @user.organisation || Organisation.new
-
     end
 
     def create
-        @organisation = Organisation.new(name: organisation_params[:name], hourly_rate:organisation_params[:hourly_rate])
+        @organisation = Organisation.new(organisation_params)
         if @organisation.save
             current_user.update(organisation_id:@organisation.id)
             redirect_to root_path, notice:"Joined #{@organisation.name}"
         else
-            redirect_to root_path, notice:"Unable to create organisation"
+            @user = current_user
+            @organisations = Organisation.all
+            render 'index'
         end
     end
 
@@ -35,6 +36,6 @@ class OrganisationsController < ApplicationController
     private
 
     def organisation_params
-        params.require(:organisation).permit(:name,:hourly_rate,:user_id)
+        params.require(:organisation).permit(:name,:hourly_rate)
     end
 end
