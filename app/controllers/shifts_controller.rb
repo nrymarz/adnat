@@ -35,8 +35,12 @@ class ShiftsController < ApplicationController
     def destroy
         user = User.find(params[:user_id])
         shift = Shift.find(params[:id])
-        user.shifts.delete(shift)
-        redirect_to organisation_shifts_path(user.organisation)
+        if user.id == session[:user_id].to_i
+            user.shifts.delete(shift)
+            redirect_to organisation_shifts_path(user.organisation)
+        else
+            redirect_to organisation_shifts_path(user.organisation), notice:"Cannot delete other users' shifts"
+        end
     end
 
     def edit
