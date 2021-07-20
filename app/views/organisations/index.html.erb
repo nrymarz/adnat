@@ -3,7 +3,7 @@
     <h2>Organisations</h2>
     <ul>
         <% @organisations.each do |org| %>
-            <li><%=org.name%> <%=link_to("Edit", edit_organisation_path(org))%> <%=link_to("Join", [@user, user:{organisation_id:org.id}], method:"PATCH") %></li>
+            <li><%=org.name%> <%=link_to("Edit", edit_organisation_path(org))%> <%=link_to("Join", users_update_org_path(@user,user:{organisation_id:org.id}), method:"PATCH") %></li>
         <% end %>
     </ul>
     <h2>Create Organization</h2> 
@@ -11,5 +11,5 @@
     <%= render partial:'form',locals:{submit_text:"Create and Join"} %>
 <% else %>
     <h2><%= @organisation.name %></h2>
-    <%= link_to "View Shifts", organisation_shifts_path(@organisation)%> <%= link_to "Edit", edit_organisation_path(@organisation) %> <%= link_to "Leave", [@user, user:{organisation_id:nil}], method:"PATCH" %>
+    <%= link_to "View Shifts", organisation_shifts_path(@organisation)%> <%= link_to "Edit", edit_organisation_path(@organisation) %> <%= link_to "Leave", users_update_org_path(@user,user:{organisation_id:nil}), method:"PATCH" %>
 <% end %>

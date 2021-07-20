@@ -1,5 +1,6 @@
 class ShiftsController < ApplicationController
     def index
+        @user = current_user
         @organisation = Organisation.find_by(id:params[:organisation_id])
         if @organisation
             @shifts = @organisation.users.collect {|u| u.shifts}.flatten!
@@ -13,13 +14,16 @@ class ShiftsController < ApplicationController
     end
 
     def create
-        if params[:organisation_id] != current_user.organisation_id
-            redirect_to root_path, notice:"Action prohibited", status:403
-        end
         @shift = Shift.new(shift_params)
         if @shift.save
             redirect_to organisation_shifts_path(current_user.organisation)
         else
+            @user = current_user
+            @organisation = current_user.organisation
+            @shifts = @organisation.users.collect {|u| u.shifts}.flatten!
+            @shifts.sort! do |a,b|
+                a.start <=> b.start
+            end
             render 'index'
         end
     end
@@ -28,6 +32,7 @@ class ShiftsController < ApplicationController
     end
 
     def destroy
+        byebug
     end
 
     def edit

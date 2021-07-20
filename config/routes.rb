@@ -7,7 +7,8 @@ Rails.application.routes.draw do
   resources :organisations do
     resources :shifts, only:[:index]
   end
-  resources :users, only:[:create,:new, :update] do
+  patch '/users/update_org', to: 'users#update_org'
+  resources :users, only:[:create,:new, :update, :edit] do
     resources :shifts, only:[:create]
   end
   root to: 'organisations#index'

@@ -1,19 +1,19 @@
 <% if @organisation.errors.any? %>
     <% @organisation.errors.full_messages.each do |msg| %>
-        <div class = 'alert alert-primary'>
+        <div class = 'alert alert-danger'>
             <%= msg %>
         </div>
     <% end %>
 <% end %>
 
 <%= form_for @organisation do |f| %>
-    <div>
-    <%= f.label :name, "Name:" %>
-    <%= f.text_field :name %>
+    <div class="input-group">
+    <%= f.label :name, "Name:", class:'input-group-text' %>
+    <%= f.text_field :name, class:'input-group-text'%>
     </div>
-    <div>
-    <%= f.label :hourly_rate, "Hourly Rate: $" %>
-    <%= f.number_field :hourly_rate %> per hour
+    <div class="input-group">
+    <%= f.label :hourly_rate, "Hourly Rate: $", class:'input-group-text' %>
+    <%= f.number_field :hourly_rate, step:"0.01", class:'input-group-text' %><span class="input-group-text">per hour</span>
     </div>
     <%= f.submit submit_text %>
 <% end %>

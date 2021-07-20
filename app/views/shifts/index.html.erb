@@ -1,6 +1,7 @@
 <h2><%=@organisation.name%></h2>
 <h3>Shifts</h3>
-<table>
+
+<table class="table">
     <tr>
         <th>Employee Name</th>
         <th>Shift Date</th>
@@ -9,31 +10,57 @@
         <th>Break Length (minutes)</th>
         <th>Hours Worked</th>
         <th>Shift Cost</th>
+        <th>Edit</th>
+        <th>Delete</th>
     </tr>
     <% if !@shifts.empty? %>
         <% @shifts.each do |shift| %>
             <tr>
                 <td><%=shift.user.name%></td>
-                <td><%=shift.start %></td>
-                <td><%=shift.start %></td>
-                <td><%=shift.finish%></td>
-                <td><%=shift.break_length%></td>
-                <td><%= %></td>
-                <td><%=@organisation.hourly_rate * (1) %></td>
+                <td><%=shift.start.strftime('%D') %></td>
+                <td><%=shift.start.strftime('%l:%M%P') %></td>
+                <td><%=shift.finish.strftime('%l:%M%P') %></td>
+                <td><%=shift.break_length %></td>
+                <td><%= shift.hours_worked.round(2) %></td>
+                <td>$<%=(@organisation.hourly_rate * (shift.hours_worked)).round(2) %></td>
+                <td>Edit</td>
+                <td>Delete</td>
             </tr>
         <% end %>
     <% end %>
-    <tr>
-    <%= form_for([current_user,@shift]) do |f| %>
-        <td><%=current_user.name %></td>
-        <%=f.hidden_field :user_id, value:current_user.id %>
-        <%=f.fields_for :date do |date_form| %>
-            <td><%=date_form.date_field :start_date %></td>
-            <td><%= date_form.time_field :start %></td>
-            <td><%= date_form.time_field :finish %></td>
-        <% end %>
-        <td><%= f.number_field :break_length %></td>
-        <td><%= f.submit "Create Shift" %></td>
-    <% end %>
-    </tr>
 </table>
+
+<% if @shift.errors.any? %>
+    <% @shift.errors.full_messages.each do |msg| %>
+        <div class = 'alert alert-danger'>
+            <%= msg %>
+        </div>
+    <% end %>
+<% end %>
+
+<h3> Add A New Shift </h3>
+<%= form_for([@user,@shift]) do |f| %>
+    <b><%=f.label :user, "Employee: "+@user.name %></b>
+    <%=f.hidden_field :user_id, value:@user.id %>
+    <%=f.fields_for :date do |date_form| %>
+        <div class="input-group">
+        <%=date_form.label :start_date, "Date:", class:'input-group-text' %>
+        <%=date_form.date_field :start_date, class:'input-group-text' %>
+        </div>
+
+        <div class="input-group">
+        <%= date_form.label :start, "Start Time:", class:'input-group-text'%>
+        <%= date_form.time_field :start , class:'input-group-text'%>
+        </div>
+
+        <div class="input-group">
+        <%= date_form.label :finish, "Finish Time:", class:'input-group-text' %>
+        <%= date_form.time_field :finish, class:'input-group-text'%>
+        </div>
+    <% end %>
+    <div class="input-group">
+    <%= f.label :break_length, class:'input-group-text' %>
+    <%= f.number_field :break_length, class:'input-group-text', value:'30' %>
+    </div>
+    <%= f.submit "Create Shift", class:'btn btn-secondary' %>
+<% end %>
