@@ -21,12 +21,11 @@ class UsersController < ApplicationController
 
     def edit
         @user = User.find(params[:id])
-        redirect_to root_path, notice: "Not allowed to edit other user's profile" if @user.id != session[:user_id].to_i
+        redirect_to root_path, notice: "Not allowed to edit other users' profiles" if @user.id != session[:user_id].to_i
     end
 
 
     def update
-        redirect_to root_path,status:403 && return if params[:id].to_i != session[:user_id]
         @user = current_user
         @user.update(user_params)
         if @user.valid?

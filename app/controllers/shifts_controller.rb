@@ -3,14 +3,14 @@ class ShiftsController < ApplicationController
     def index
         @user = current_user
         @organisation = Organisation.find_by(id:params[:organisation_id])
-        if @organisation
+        if @organisation && @organisation.id == @user.organisation.id
             @shifts = @organisation.users.collect {|u| u.shifts}.flatten!
             @shifts.sort! do |a,b|
                 a.start <=> b.start
             end
             @shift = Shift.new
         else
-            redirect_to root_path, notice:"Organisation with that ID was not found"
+            redirect_to root_path, notice:"Unable to show page for that organisation"
         end
     end
 
