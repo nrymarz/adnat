@@ -6,16 +6,14 @@ class Shift < ApplicationRecord
 
     def date=(obj)
         return if obj.any? {|k,v| v.empty?}
-        start_date_time = DateTime.parse(obj[:start_date] + ' ' + obj[:start])
-        finish_date_time = DateTime.parse(obj[:start_date] + ' ' + obj[:finish])
-        finish_date_time < start_date_time
-        self.start = start_date_time
-        self.finish = finish_date_time > start_date_time ? finish_date_time : finish_date_time.next
+        self.start = DateTime.parse(obj[:start_date] + ' ' + obj[:start])
+        self.finish = DateTime.parse(obj[:start_date] + ' ' + obj[:finish])
+        self.finish = finish.next if finish < start
     end
 
     def hours_worked
-        if(self.finish && self.start && self.break_length)
-           hw = ((self.finish.hour*60 +self.finish.min) - (self.start.hour*60 + self.start.min) - self.break_length)/60.0
+        if(finish && start && break_length)
+           hw = ((finish.hour*60 +finish.min) - (start.hour*60 + start.min) - break_length)/60.0
            hw += 24 if hw < 0 
            hw.round(2)
         end
@@ -23,15 +21,15 @@ class Shift < ApplicationRecord
 
     def sunday_hours_worked
         shw = 0
-        if self.start.sunday? && self.finish.sunday?
-            shw = self.hours_worked
-        elsif self.start.sunday?
-            sunday_break_time = (self.break_length - (self.finish.hour*60 +self.finish.min))
-            shw = 1440 - (self.start.hour*60 + self.start.min)
+        if start.sunday? && finish.sunday?
+            shw = hours_worked
+        elsif start.sunday?
+            sunday_break_time = (break_length - (finish.hour*60 +finish.min))
+            shw = 1440 - (start.hour*60 + start.min)
             shw -= sunday_break_time if sunday_break_time > 0
             shw = shw/60.0
-        elsif self.finish.sunday?
-            shw = (self.finish.hour*60 + self.finish.min) - self.break_length
+        elsif finish.sunday?
+            shw = (finish.hour*60 + finish.min) - break_length
             shw = 0 if shw < 0
             shw = shw/60.0
         end
@@ -48,14 +46,14 @@ class Shift < ApplicationRecord
     end
 
     def date
-        self.start.strftime('%D') if self.start
+        start.strftime('%D') if start
     end
 
     def finish_time
-        self.finish.strftime('%l:%M%P') if self.finish
+        finish.strftime('%l:%M%P') if finish
     end
 
     def start_time
-        self.start.strftime('%l:%M%P') if self.start
+        start.strftime('%l:%M%P') if start
     end
 end
