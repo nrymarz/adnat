@@ -9,15 +9,13 @@ class Shift < ApplicationRecord
         start_date_time = DateTime.parse(obj[:start_date] + ' ' + obj[:start])
         finish_date_time = DateTime.parse(obj[:start_date] + ' ' + obj[:finish])
         self.start = start_date_time
-        self.finish = finish_date_time > start_date_time ? finish_date_time : finish_date_time.next
+        self.finish = finish_date_time >= start_date_time ? finish_date_time : finish_date_time.next
     end
 
     def hours_worked
-        if(finish && start && break_length)
-           hw = ((finish.hour*60 +finish.min) - (start.hour*60 + start.min) - break_length)/60.0
-           hw += 24 if hw < 0 
-           hw.round(2)
-        end
+        hw = ((finish.hour*60 +finish.min) - (start.hour*60 + start.min) - break_length)/60.0
+        hw += 24 if hw < 0 
+        hw
     end
 
     def sunday_hours_worked
@@ -38,12 +36,12 @@ class Shift < ApplicationRecord
     end
 
     def sunday_bonus(hourly_rate)
-        sunday_hours_worked * hourly_rate
+        (sunday_hours_worked * hourly_rate).round(2)
     end
 
 
     def shift_cost(hourly_rate)
-        hours_worked*hourly_rate + sunday_bonus(hourly_rate)
+        (hours_worked*hourly_rate + sunday_bonus(hourly_rate)).round(2)
     end
 
     def date
