@@ -44,8 +44,9 @@ class Shift < ApplicationRecord
 
 
     def shift_cost(hourly_rate)
-        if(sunday_hours_worked > 0)
-            pay = ((sunday_hours_worked*hourly_rate*2) + (hours_worked - sunday_hours_worked)*hourly_rate)
+        shw = sunday_hours_worked
+        if(shw > 0)
+            pay = ((shw*hourly_rate*2) + (hours_worked - shw)*hourly_rate)
         else
             pay = hours_worked * hourly_rate
         end
