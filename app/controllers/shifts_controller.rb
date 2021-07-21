@@ -1,7 +1,7 @@
 class ShiftsController < ApplicationController
 
     before_action :redirect_if_not_logged_in
-    
+
     def index
         @user = current_user
         @organisation = Organisation.find_by(id:params[:organisation_id])

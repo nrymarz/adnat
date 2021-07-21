@@ -10,6 +10,7 @@
         <th>Break Length (minutes)</th>
         <th>Hours Worked</th>
         <th>Shift Cost</th>
+        <th>Sunday Bonus</th>
         <th>Edit</th>
         <th>Delete</th>
     </tr>
@@ -21,8 +22,9 @@
                 <td><%=shift.start_time %></td>
                 <td><%=shift.finish_time %></td>
                 <td><%=shift.break_length %></td>
-                <td><%= shift.hours_worked.round(2) %></td>
-                <td>$<%=(@organisation.hourly_rate * (shift.hours_worked)).round(2) %></td>
+                <td><%= shift.hours_worked %></td>
+                <td>$<%=shift.shift_cost(@organisation.hourly_rate) %></td>
+                <td>$<%=shift.sunday_bonus(@organisation.hourly_rate) %></td>
                 <td><%= link_to "Edit", edit_user_shift_path(shift.user,shift) %></td>
                 <td><%= link_to "Delete", [shift.user,shift], method:"DELETE" %></td>
             </tr>
