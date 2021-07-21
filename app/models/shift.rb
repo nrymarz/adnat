@@ -6,9 +6,10 @@ class Shift < ApplicationRecord
 
     def date=(obj)
         return if obj.any? {|k,v| v.empty?}
-        self.start = DateTime.parse(obj[:start_date] + ' ' + obj[:start])
-        self.finish = DateTime.parse(obj[:start_date] + ' ' + obj[:finish])
-        self.finish = finish.next if finish < start
+        start_date_time = DateTime.parse(obj[:start_date] + ' ' + obj[:start])
+        finish_date_time = DateTime.parse(obj[:start_date] + ' ' + obj[:finish])
+        self.start = start_date_time
+        self.finish = finish_date_time > start_date_time ? finish_date_time : finish_date_time.next
     end
 
     def hours_worked
